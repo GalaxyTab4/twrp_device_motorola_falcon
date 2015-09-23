@@ -15,23 +15,34 @@
 #
 
 # call the proprietary setup
-$(call inherit-product, vendor/motorola/falcon/falcon-vendor.mk)
+#$(call inherit-product, vendor/motorola/falcon/falcon-vendor.mk)
 
 # Overlay
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+# DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
-# Audio
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+  LOCAL_KERNEL := device/motorola/falcon/kernel
+else
+  LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
+
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/mixer_paths.xml:system/etc/mixer_paths.xml
+    $(LOCAL_KERNEL):kernel
+
+# TWRP
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/recovery/curtain.jpg:recovery/root/twres/images/curtain.jpg
 
 # Ramdisk
-PRODUCT_PACKAGES += \
-    fstab.qcom \
-    init.target.rc
+# PRODUCT_PACKAGES += \
+#    fstab.qcom \
+#    init.target.rc
 
-# Wifi
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
 
 # Inherit from msm8226-common
-$(call inherit-product, device/motorola/msm8226-common/msm8226.mk)
+#$(call inherit-product, device/motorola/msm8226-common/msm8226.mk)

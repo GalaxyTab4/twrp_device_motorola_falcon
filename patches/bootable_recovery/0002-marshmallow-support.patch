@@ -1,0 +1,43 @@
+From 86159ba1a4dd5ed25df4a32c1e790aa6f22258cc Mon Sep 17 00:00:00 2001
+From: sub77 <sub77@ymail.com>
+Date: Fri, 6 Nov 2015 13:57:20 +0100
+Subject: [PATCH 2/2] marshmallow support
+
+Change-Id: I57ad9babd79f9283e4a27631fe3e3712ee3898e4
+---
+ multiromedify.cpp | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/multiromedify.cpp b/multiromedify.cpp
+index c2558d7..99cc1ef 100644
+--- a/multiromedify.cpp
++++ b/multiromedify.cpp
+@@ -83,7 +83,7 @@ int EdifyFunc::replaceOffendings(std::list<EdifyElement*> **parentList, std::lis
+ {
+     int res = 0;
+ 
+-    if(m_name == "mount" || m_name == "unmount" || m_name == "format")
++    if(m_name == "mount" || m_name == "unmount" || m_name == "format" || m_name == "abort")
+     {
+         lastNewlineRef = (*parentList)->insert(++lastNewlineRef, new EdifyValue(
+                 std::string("# MultiROM removed function ") + m_name +
+@@ -105,6 +105,16 @@ int EdifyFunc::replaceOffendings(std::list<EdifyElement*> **parentList, std::lis
+                 }
+             }
+         }
++        
++        if(m_name == "abort")
++        {
++            for(std::list<EdifyElement*>::iterator itr = m_args.begin(); itr != m_args.end(); ++itr)
++            {
++                if((*itr)->getType() != EDF_VALUE)
++                    continue;
++
++            }
++        }
+ 
+         res |= OFF_CHANGED;
+         m_name = "ui_print";
+-- 
+2.5.0
+

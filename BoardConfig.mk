@@ -47,12 +47,12 @@ TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_falcon.c
 TARGET_UNIFIED_DEVICE := true
 
 # Kernel
-RECOVERY_VERSION := twrp20150922-02
+RECOVERY_VERSION := TWRP20151010
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
-BOARD_MKBOOTIMG_ARGS := --board $(RECOVERY_VERSION) --dt device/motorola/falcon/dt.img --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+BOARD_MKBOOTIMG_ARGS := --board $(RECOVERY_VERSION) --dt $(LOCAL_PATH)/dt.img --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 #TARGET_PREBUILT_KERNEL := device/motorola/falcon/kernel
-TARGET_KERNEL_CONFIG := falcon_sailfish_defconfig
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 vmalloc=400M utags.blkdev=/dev/block/platform/msm_sdcc.1/by-name/utags androidboot.selinux=permissive
+TARGET_KERNEL_CONFIG := twrp_falcon_defconfig
+BOARD_KERNEL_CMDLINE := console=null androidboot.console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 vmalloc=400M utags.blkdev=/dev/block/platform/msm_sdcc.1/by-name/utags androidboot.write_protect=0
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true

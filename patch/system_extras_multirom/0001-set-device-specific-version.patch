@@ -1,0 +1,25 @@
+From 5a5d39b059f9806bb2b75277a0af13de44c2e4d7 Mon Sep 17 00:00:00 2001
+From: sub77 <sub77@ymail.com>
+Date: Wed, 18 Nov 2015 18:09:06 +0100
+Subject: [PATCH] set device specific version
+
+---
+ version.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/version.h b/version.h
+index 245eb78..5b34d63 100644
+--- a/version.h
++++ b/version.h
+@@ -17,7 +17,7 @@
+ 
+ #ifndef VERSION_H
+ #define VERSION_H
+-    #define VERSION_MULTIROM 32
++    #define VERSION_MULTIROM 32m
+     #define VERSION_TRAMPOLINE 26
+ 
+     // For device-specific fixes. Use letters, the version will then be like "12a"
+-- 
+2.5.0
+

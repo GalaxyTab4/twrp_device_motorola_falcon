@@ -1,0 +1,8 @@
+#
+# system.prop for falcon
+#
+# due to TARGET_UNIFIED_DEVICE := true
+# i'm sticking it here, since it's not
+# in the init_falcon.c
+#
+# ro.product.model=MOTO G

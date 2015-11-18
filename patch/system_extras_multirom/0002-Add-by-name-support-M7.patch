@@ -1,0 +1,93 @@
+From f1c194634fb6fc421b60059e7fdd4610e44fa2cb Mon Sep 17 00:00:00 2001
+From: nkk71 <nkk71x@gmail.com>
+Date: Thu, 16 Jul 2015 17:43:15 +0300
+Subject: [PATCH 2/2] Add by-name support (M7)
+
+Many HTC One M7 kernels don't provide by-name support, add a workaround to populate by-name partition symlinks from /proc/emmc
+---
+ trampoline/Populate_M7_byname.c | 49 +++++++++++++++++++++++++++++++++++++++++
+ trampoline/trampoline.c         |  5 +++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 trampoline/Populate_M7_byname.c
+
+diff --git a/trampoline/Populate_M7_byname.c b/trampoline/Populate_M7_byname.c
+new file mode 100644
+index 0000000..04ce46d
+--- /dev/null
++++ b/trampoline/Populate_M7_byname.c
+@@ -0,0 +1,49 @@
++//Populate by-name symlinks on HTC One M7
++
++#include <stdio.h>
++#include <string.h>
++#include <unistd.h>
++
++#include "../lib/util.h"
++
++int Populate_M7_byname(void)
++{
++	#define EMMC "/proc/emmc"
++	#define DEV_BLOCKS "/dev/block"
++	#define DEV_BYNAME "/dev/block/platform/msm_sdcc.1/by-name"
++
++    INFO("nkk71: check by-name support");
++
++    if (mkdir_recursive(DEV_BYNAME, 0755) == 0)
++	{
++		FILE * fp;
++		char strDev[20], strSize[20], strErasesize[20], strName[20];
++		char strHardlink[80], strSoftlink[80];
++
++        INFO("nkk71: begin populate");
++
++		fp = fopen (EMMC, "r");
++		
++		if (fp == NULL)
++			ERROR("nkk71: Error opening EMMC %s", EMMC);
++		else
++		{
++			while (!feof(fp)) {
++				fscanf(fp, "%[^:]: %s %s \"%[^\"]\" ", strDev, strSize, strErasesize, strName);
++
++                if (strncmp("mmcblk0p", strDev, 8) == 0)
++                {
++    				sprintf (strHardlink, "%s/%s", DEV_BLOCKS, strDev);
++	    			sprintf (strSoftlink, "%s/%s", DEV_BYNAME, strName);
++
++                    INFO("nkk71: link %s to %s - result=%i\n", strSoftlink, strHardlink, symlink(strHardlink, strSoftlink));
++                }
++			}
++			fclose(fp);
++		}
++        INFO("nkk71: populate done");
++	}
++    else
++        INFO("nkk71: by-name already found, aborting populate");
++	return(0);
++}
+diff --git a/trampoline/trampoline.c b/trampoline/trampoline.c
+index b9a10e9..8427308 100644
+--- a/trampoline/trampoline.c
++++ b/trampoline/trampoline.c
+@@ -36,6 +36,8 @@
+ #include "../hooks.h"
+ #include "encryption.h"
+ 
++#include "Populate_M7_byname.c"
++
+ #define EXEC_MASK (S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH)
+ #define REALDATA "/realdata"
+ #define MULTIROM_BIN "multirom"
+@@ -336,6 +338,9 @@ int main(int argc, char *argv[])
+         goto exit;
+     }
+ 
++    //nkk71 M7 hack
++    Populate_M7_byname();
++
+     fstab = fstab_auto_load();
+     if(!fstab)
+         goto exit;
+-- 
+2.5.0
+

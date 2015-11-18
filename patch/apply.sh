@@ -4,6 +4,9 @@ MYABSPATH=$(readlink -f "$0")
 PATCHBASE=$(dirname "$MYABSPATH")
 CMBASE=$(readlink -f "$PATCHBASE/../../../../")
 
+cd system/extras/multirom
+git submodule update --init
+
 for i in $(find "$PATCHBASE"/* -type d); do
 	PATCHNAME=$(basename "$i")
 	PATCHTARGET=$PATCHNAME
@@ -15,3 +18,4 @@ for i in $(find "$PATCHBASE"/* -type d); do
 	cd "$CMBASE/$PATCHTARGET" || exit 1
 	git am -3 "$PATCHBASE/$PATCHNAME"/* || exit 1
 done
+

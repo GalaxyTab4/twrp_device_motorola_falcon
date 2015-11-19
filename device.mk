@@ -9,7 +9,7 @@ DEVICE_PACKAGE_OVERLAYS += device/motorola/falcon/overlay
 
 LOCAL_PATH := device/motorola/falcon
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-        LOCAL_KERNEL := device/motorola/falcon/recovery/kernel/kernel
+        LOCAL_KERNEL := device/motorola/falcon/recovery/kernel/zImage-dtb
 else
         LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif

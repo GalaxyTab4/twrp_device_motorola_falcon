@@ -26,7 +26,7 @@ TARGET_NO_BOOTLOADER := true
 # Platform
 TARGET_BOARD_PLATFORM := msm8226
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
-TARGET_BOARD_INFO_FILE := device/motorola/falcon/board-info.txt
+#TARGET_BOARD_INFO_FILE := device/motorola/falcon/board-info.txt
 
 # Architecture
 TARGET_ARCH := arm
@@ -39,14 +39,15 @@ TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 
 # Kernel
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user_debug=31 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user_debug=31
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS := --dt device/motorola/falcon/recovery/kernel/dt.img --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 
 BOARD_CUSTOM_BOOTIMG_MK := device/motorola/falcon/mkbootimg.mk
-TARGET_KERNEL_CONFIG := twrp_falcon_defconfig
-TARGET_KERNEL_SOURCE := kernel/motorola/msm8226
-#TARGET_PREBUILT_KERNEL := device/motorola/falcon/recovery/kernel/kernel
+#TARGET_KERNEL_CONFIG := twrp_falcon_defconfig
+#TARGET_KERNEL_SOURCE := kernel/motorola/msm8226
+TARGET_PREBUILT_KERNEL := device/motorola/falcon/recovery/kernel/zImage-dtb
+#BOARD_KERNEL_PREBUILT_DT := true
 
 # QCOM hardware
 BOARD_USES_QCOM_HARDWARE := true
@@ -77,6 +78,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Recovery
 BOARD_HAS_NO_SELECT_BUTTON := true
+TARGET_RECOVERY_FSTAB := device/motorola/falcon/recovery.fstab
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 38
@@ -101,14 +103,13 @@ TARGET_LIBINIT_DEFINES_FILE := device/motorola/falcon/init/init_falcon.c
 TW_THEME := portrait_hdpi
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
-TW_INCLUDE_CRYPTO := true
-#BOARD_RECOVERY_BLDRMSG_OFFSET := 2048
+#TW_INCLUDE_CRYPTO := true
+TW_SCREEN_BLANK_ON_BOOT := true
 #RECOVERY_VARIANT := twrp
-TARGET_RECOVERY_DEVICE_MODULES := chargeled libinit_falcon
+TARGET_RECOVERY_DEVICE_MODULES := libinit_falcon
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
-TW_NO_USB_STORAGE := true
+BOARD_SUPPRESS_SECURE_ERASE := true
 TW_EXTERNAL_STORAGE_PATH := "/usb-otg"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
 

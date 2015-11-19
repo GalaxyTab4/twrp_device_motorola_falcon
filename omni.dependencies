@@ -1,8 +1,3 @@
 [
-  {
-    "remote": "github",
-    "repository": "GalaxyTab4/twrp_device_motorola_falcon",
-    "target_path": "kernel/motorola/msm8226",
-    "revision": "android-5.1-kernel"
-  }
+
 ]
